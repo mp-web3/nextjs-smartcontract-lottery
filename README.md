@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Smart Contract Lottery
+
+- [nextjs-smartcontract-lottery-fcc](https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc) from PatrickAlphaC
+- [smart contract kit lesson](https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-10-nextjs-smart-contract-lottery-full-stack--front-end)
+- [6 Ways to connect your dapp to a wallet](https://www.youtube.com/watch?v=pdsYCkUWrgQ)
 
 ## Setup
 
@@ -6,7 +10,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 2. run `yarn create next-app .`
    > The period after "next app", indicates we want to create the application in the current folder (avoid folder duplication)
 
-## Getting Started
+## Getting Started with Next.js
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
@@ -44,3 +50,27 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Packages
+
+### moralis
+
+- Read [MoralisWeb3 GitHub](https://github.com/MoralisWeb3/react-moralis), to learn how to use react-moralis
+
+We'll use [react-moralis](https://www.npmjs.com/package/react-moralis) to easily call functionalities and display data from ethereum.
+
+> **IMPORTANT!** we install it as normal dependencies and not `--dev` dev dependencies because **_we need moralis for production build_**!!!
+
+to install moralis run:
+
+```
+yarn add react react-dom moralis-v1 react-moralis
+```
+
+In order to let your components have access to Moralis functions, wrap your app in a <MoralisProvider />
+
+See `@/pages_app.js`
+
+###
+
+##
