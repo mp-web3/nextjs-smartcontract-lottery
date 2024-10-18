@@ -84,3 +84,44 @@ See `@/pages_app.js`
 > Hooks allow function components to have access to **state** and other React features. Because of this, class components are generally no longer needed. Source [w3schools React Hooks](https://www.w3schools.com/react/react_hooks.asp)
 
 Thanks to states, our components and fronted rerender based on the state.
+
+## Use Effect
+
+useEffect function takes 2 parameters:
+
+1. A function as a first parameter
+2. Optionally a dependency array as second parameter.
+
+### Case 1: providing a non empty dependency array
+
+useEffect will keep checking the values in the dependency array so that
+if anything in the dependency array changes is going to call some function and rerender the frontend
+
+```
+useEffect(() => {
+  console.log("Hi!");
+  console.log(isWeb3Enabled);
+}, [isWeb3Enabled]);
+
+```
+
+Here use effect will constantly listening to something that changes the valuue of "isWeb3Enabled"
+In strict mode useEffect run twice: on load and immediatly after will check the value
+
+### Case 2: only passing the first parameter
+
+useEffect(() => {
+console.log(Hi!);
+console.log(isWeb3Enabled);
+})
+
+In this case useEffect() will run anytime the frontend rerenders
+
+### Case 3: passing an epty array as second parameter
+
+useEffect(() => {
+console.log(Hi!);
+console.log(isWeb3Enabled);
+}, [])
+
+in this case useEffect will run only on reload
