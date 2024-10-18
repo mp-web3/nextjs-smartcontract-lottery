@@ -5,6 +5,9 @@ import { ConnectButton } from "@web3uikit/web3"
 export default function Header() {
     return (
         <div>
+            <div className="flex justify-center">
+                <h1>Decentralized Lottery</h1>
+            </div>
             <ConnectButton moralisAuth={false} />
         </div>
     )

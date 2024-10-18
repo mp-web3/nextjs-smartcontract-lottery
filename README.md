@@ -84,7 +84,34 @@ In order to let your components have access to Moralis functions, wrap your app 
 
 See `@/pages_app.js`
 
-###
+#### Learn to use `useWeb3Contract` from `react-moralis`
+
+-   [useWeb3Contract docs](https://github.com/MoralisWeb3/react-moralis?tab=readme-ov-file#useweb3contract)
+
+_example_
+
+```
+const ShowUniswapObserveValues = () => {
+  const { data, error, runContractFunction, isFetching, isLoading } =
+    useWeb3Contract({
+      abi: usdcEthPoolAbi,
+      contractAddress: usdcEthPoolAddress,
+      functionName: "observe",
+      params: {
+        secondsAgos: [0, 10],
+      },
+    });
+
+  return (
+    <div>
+      {error && <ErrorMessage error={error} />}
+      <button onClick={() => runContractFunction()} disabled={isFetching}>
+        Fetch data
+      </button>
+      {data && <pre>{JSON.stringify(data)}</pre>}
+    </div>
+  );
+};
 
 ---
 
@@ -109,9 +136,10 @@ useEffect will keep checking the values in the dependency array so that
 if anything in the dependency array changes is going to call some function and rerender the frontend
 
 ```
+
 useEffect(() => {
-  console.log("Hi!");
-  console.log(isWeb3Enabled);
+console.log("Hi!");
+console.log(isWeb3Enabled);
 }, [isWeb3Enabled]);
 
 ```
@@ -144,15 +172,16 @@ We want our application to remember if someone alreasy connected the account
 we will store it in the window object
 
 ```
+
 import { useMoralis } from "react-moralis"
 import { useEffect } from "react"
 
 export default function Header() {
-    const { enableWeb3, account, isWeb3Enabled } = useMoralis()
-    useEffect(() => {
-        if (isWeb3Enabled) return
-        enableWeb3()
-    }, [isWeb3Enabled])
+const { enableWeb3, account, isWeb3Enabled } = useMoralis()
+useEffect(() => {
+if (isWeb3Enabled) return
+enableWeb3()
+}, [isWeb3Enabled])
 
     return (
         <div>
@@ -177,5 +206,9 @@ export default function Header() {
             )}
         </div>
     )
+
 }
+
+```
+
 ```
