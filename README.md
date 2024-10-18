@@ -67,10 +67,20 @@ to install moralis run:
 yarn add react react-dom moralis-v1 react-moralis
 ```
 
+> Moralis is a **context provider**
+
 In order to let your components have access to Moralis functions, wrap your app in a <MoralisProvider />
 
 See `@/pages_app.js`
 
 ###
 
-##
+---
+
+# Learn More about Stuff
+
+## React Hooks
+
+> Hooks allow function components to have access to **state** and other React features. Because of this, class components are generally no longer needed. Source [w3schools React Hooks](https://www.w3schools.com/react/react_hooks.asp)
+
+Thanks to states, our components and fronted rerender based on the state.
