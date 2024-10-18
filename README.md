@@ -53,6 +53,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Packages
 
+### web3uikit
+
+-   [web3uikit GitHub](https://github.com/web3ui/web3uikit?tab=readme-ov-file#web3uikit)
+-   [web3uikit usage examples for Nextjs](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components-babel)
+
+lightweight UI components for web3 developers.
+
+```
+yarn add  @web3uikit/core @web3uikit/web3 @web3uikit/icons
+```
+
 ### moralis
 
 -   Read [MoralisWeb3 GitHub](https://github.com/MoralisWeb3/react-moralis), to learn how to use react-moralis
