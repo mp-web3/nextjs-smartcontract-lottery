@@ -7,7 +7,8 @@ export default function Header() {
 
     // enableWeb3 will try to connect metamask as soon as the frontend loads
     // account check if an account is connected
-    const { enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3 } = useMoralis()
+    const { enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3, isWeb3EnableLoading } =
+        useMoralis()
 
     // useEffect function takes 2 parameters:
     // 1. A function as a first parameter
@@ -49,14 +50,20 @@ export default function Header() {
                 </div>
             ) : (
                 <button
-                    className="border border-white py-2 px-4 rounded-lg"
+                    className={`border border-white py-2 px-4 rounded-lg 
+                        ${
+                            isWeb3EnableLoading
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                        }`}
                     onClick={async () => {
                         await enableWeb3()
                         if (typeof window !== "undefined")
                             window.localStorage.setItem("connected", "injected")
                     }}
+                    disabled={isWeb3EnableLoading}
                 >
-                    Connect
+                    {isWeb3EnableLoading ? "Loading..." : "Connect"}
                 </button>
             )}
         </div>
