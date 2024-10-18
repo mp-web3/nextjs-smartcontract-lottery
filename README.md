@@ -1,14 +1,14 @@
 # Next.js Smart Contract Lottery
 
-- [nextjs-smartcontract-lottery-fcc](https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc) from PatrickAlphaC
-- [smart contract kit lesson](https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-10-nextjs-smart-contract-lottery-full-stack--front-end)
-- [6 Ways to connect your dapp to a wallet](https://www.youtube.com/watch?v=pdsYCkUWrgQ)
+-   [nextjs-smartcontract-lottery-fcc](https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc) from PatrickAlphaC
+-   [smart contract kit lesson](https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-10-nextjs-smart-contract-lottery-full-stack--front-end)
+-   [6 Ways to connect your dapp to a wallet](https://www.youtube.com/watch?v=pdsYCkUWrgQ)
 
 ## Setup
 
 1. `yarn init` and accept defaults
 2. run `yarn create next-app .`
-   > The period after "next app", indicates we want to create the application in the current folder (avoid folder duplication)
+    > The period after "next app", indicates we want to create the application in the current folder (avoid folder duplication)
 
 ## Getting Started with Next.js
 
@@ -40,8 +40,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+-   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
@@ -55,7 +55,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### moralis
 
-- Read [MoralisWeb3 GitHub](https://github.com/MoralisWeb3/react-moralis), to learn how to use react-moralis
+-   Read [MoralisWeb3 GitHub](https://github.com/MoralisWeb3/react-moralis), to learn how to use react-moralis
 
 We'll use [react-moralis](https://www.npmjs.com/package/react-moralis) to easily call functionalities and display data from ethereum.
 
@@ -125,3 +125,46 @@ console.log(isWeb3Enabled);
 }, [])
 
 in this case useEffect will run only on reload
+
+## Local Storage
+
+We want our application to remember if someone alreasy connected the account
+
+we will store it in the window object
+
+```
+import { useMoralis } from "react-moralis"
+import { useEffect } from "react"
+
+export default function Header() {
+    const { enableWeb3, account, isWeb3Enabled } = useMoralis()
+    useEffect(() => {
+        if (isWeb3Enabled) return
+        enableWeb3()
+    }, [isWeb3Enabled])
+
+    return (
+        <div>
+            {/* If an account is already connected it will just show "Connected"
+          else it will display the connect button*/}
+            {account ? (
+                <div>
+                    Connected to {account.slice(0, 6)}...
+                    {account.slice(account.length - 4)}
+                </div>
+            ) : (
+                <button
+                    className="border border-white py-2 px-4 rounded-lg"
+                    onClick={async () => {
+                        await enableWeb3()
+
+                        window.localStorage.setItem("connected", "injected")
+                    }}
+                >
+                    Connect
+                </button>
+            )}
+        </div>
+    )
+}
+```
