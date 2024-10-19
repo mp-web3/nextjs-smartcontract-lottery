@@ -7,6 +7,9 @@ import { ethers } from "ethers"
 import { Button } from "@web3uikit/core"
 import { Bell } from "@web3uikit/icons"
 
+// TODO: add a listener that listen to the event `WinnerPicked(address indexed player)` emitted when a winner is picked
+// Update the frontend anytime a winner is picked
+
 export default function LotteryEntrance() {
     // Moralis know which chain we are on, because the Header passes up
     // to the MoralisProvider (_app.js) all of the informations about
@@ -122,7 +125,8 @@ export default function LotteryEntrance() {
                         onClick={async () => {
                             await enterRaffle({
                                 // onComplete,
-                                onSuccess: handleSuccess,
+                                onSuccess: handleSuccess, // onSucces is only checking that the transaction was succesfully sent to the wallet
+                                // It is NOT checking if the transaction was confirmed onChain!!!
                                 onError: (error) => console.log(error),
                             })
                         }}
