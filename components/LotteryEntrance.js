@@ -24,6 +24,8 @@ export default function LotteryEntrance() {
     // entranceFee must be a hook, otherwise when it gets updated is frontend does not rerender and we do not see it!
     // runContractFunction can both send transactions and read state
     const [entranceFee, setEntranceFee] = useState("0")
+    const [numberOfPlayers, setNumberOfPlayers] = useState("0")
+    const [lastWinner, setLastWinner] = useState("0")
     // dispatch is a kind of pop-up
     const dispatch = useNotification()
     // -----------------------------------------------
@@ -37,6 +39,20 @@ export default function LotteryEntrance() {
         abi: abi,
         contractAddress: raffleAddress,
         functionName: "getEntranceFee",
+        params: {},
+    })
+
+    const { runContractFunction: getNumberOfPlayers } = useWeb3Contract({
+        abi: abi,
+        contractAddress: raffleAddress,
+        functionName: "getNumberOfPlayers",
+        params: {},
+    })
+
+    const { runContractFunction: getLastWinner } = useWeb3Contract({
+        abi: abi,
+        contractAddress: raffleAddress,
+        functionName: "getLastWinner",
         params: {},
     })
 
@@ -62,20 +78,26 @@ export default function LotteryEntrance() {
     const handleSuccess = async (tx) => {
         await tx.wait(1)
         handleNotification(tx)
+        updateUI()
+    }
+
+    async function updateUI() {
+        try {
+            const entranceFeeFromCall = (await getEntranceFee()).toString()
+            const numberOfPlayersFromCall = (await getNumberOfPlayers()).toString()
+            const lastWinnerFromCall = (await getLastWinner()).toString()
+            setEntranceFee(entranceFeeFromCall)
+            setNumberOfPlayers(numberOfPlayersFromCall)
+            setLastWinner(lastWinnerFromCall)
+        } catch (error) {
+            console.error("Error fetching entrance fee:", error) // Catch and log any errors
+        }
     }
 
     useEffect(() => {
         if (isWeb3Enabled && raffleAddress) {
             // Ensure Web3 is enabled and raffleAddress is valid
-            async function readEntranceFee() {
-                try {
-                    const entranceFeeFromCall = (await getEntranceFee()).toString()
-                    setEntranceFee(entranceFeeFromCall)
-                } catch (error) {
-                    console.error("Error fetching entrance fee:", error) // Catch and log any errors
-                }
-            }
-            readEntranceFee()
+            updateUI()
         } else {
             console.log(
                 `Web3 must be true: ${isWeb3Enabled}. raffleAddress cannot be null: ${raffleAddress}`
@@ -91,6 +113,8 @@ export default function LotteryEntrance() {
                         Hi frome lottery! The take part in the lottery contribute{" "}
                         {ethers.utils.formatUnits(entranceFee, "ether")} ETH
                     </p>
+                    <p>Number of players: {numberOfPlayers}</p>
+                    <p>Last winner: {lastWinner}</p>
                     <Button
                         type="button"
                         theme="primary"
