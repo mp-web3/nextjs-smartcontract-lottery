@@ -1,7 +1,8 @@
 import { useWeb3Contract } from "react-moralis"
 import { contractAddresses, abi } from "@/constants/constants"
 import { useMoralis } from "react-moralis"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { ethers } from "ethers"
 
 export default function LotteryEntrance() {
     // Moralis know which chain we are on, because the Header passes up
@@ -19,6 +20,7 @@ export default function LotteryEntrance() {
     // let entranceFee
     // entranceFee must be a hook, otherwise when it gets updated is frontend does not rerender and we do not see it!
     // runContractFunction can both send transactions and read state
+    const [entranceFee, setEntranceFee] = useState("0")
     // -----------------------------------------------
     // const { runContractFunction: enterRaffle } = useWeb3Contract({
     //     abi: abi,
@@ -45,8 +47,8 @@ export default function LotteryEntrance() {
             // Ensure Web3 is enabled and raffleAddress is valid
             async function readEntranceFee() {
                 try {
-                    entranceFee = (await getEntranceFee()).toString()
-                    console.log("Entrance Fee:", entranceFee) // Log entrance fee
+                    const entranceFeeFromCall = (await getEntranceFee()).toString()
+                    setEntranceFee(ethers.utils.formatUnits(entranceFeeFromCall, "ether"))
                 } catch (error) {
                     console.error("Error fetching entrance fee:", error) // Catch and log any errors
                 }
@@ -61,7 +63,7 @@ export default function LotteryEntrance() {
 
     return (
         <div>
-            <p>Hi frome lottery! The fee in ETH to participate is {entranceFee}</p>
+            <p>Hi frome lottery! The take part in the lottery contribute {entranceFee} ETH</p>
         </div>
     )
 }
