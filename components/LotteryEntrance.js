@@ -48,7 +48,7 @@ export default function LotteryEntrance() {
             async function readEntranceFee() {
                 try {
                     const entranceFeeFromCall = (await getEntranceFee()).toString()
-                    setEntranceFee(ethers.utils.formatUnits(entranceFeeFromCall, "ether"))
+                    setEntranceFee(entranceFeeFromCall)
                 } catch (error) {
                     console.error("Error fetching entrance fee:", error) // Catch and log any errors
                 }
@@ -63,7 +63,10 @@ export default function LotteryEntrance() {
 
     return (
         <div>
-            <p>Hi frome lottery! The take part in the lottery contribute {entranceFee} ETH</p>
+            <p>
+                Hi frome lottery! The take part in the lottery contribute{" "}
+                {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+            </p>
         </div>
     )
 }
