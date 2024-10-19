@@ -3,6 +3,7 @@ import { contractAddresses, abi } from "@/constants/constants"
 import { useMoralis } from "react-moralis"
 import { useEffect, useState } from "react"
 import { ethers } from "ethers"
+import { Button } from "@web3uikit/core"
 
 export default function LotteryEntrance() {
     // Moralis know which chain we are on, because the Header passes up
@@ -22,13 +23,6 @@ export default function LotteryEntrance() {
     // runContractFunction can both send transactions and read state
     const [entranceFee, setEntranceFee] = useState("0")
     // -----------------------------------------------
-    // const { runContractFunction: enterRaffle } = useWeb3Contract({
-    //     abi: abi,
-    //     contractAddress: raffleAddress,
-    //     functionName: enterRaffle,
-    //     params: {},
-    //     msgValue: entranceFee,
-    // })
 
     // When frontend loads we are going to read the entranceFee (which is set dinamically when Raffle.sol is deployed)
     // By using calling the function getEntranceFee()
@@ -40,6 +34,14 @@ export default function LotteryEntrance() {
         contractAddress: raffleAddress,
         functionName: "getEntranceFee",
         params: {},
+    })
+
+    const { runContractFunction: enterRaffle } = useWeb3Contract({
+        abi: abi,
+        contractAddress: raffleAddress,
+        functionName: "enterRaffle",
+        params: {},
+        msgValue: entranceFee,
     })
 
     useEffect(() => {
@@ -63,10 +65,26 @@ export default function LotteryEntrance() {
 
     return (
         <div>
-            <p>
-                Hi frome lottery! The take part in the lottery contribute{" "}
-                {ethers.utils.formatUnits(entranceFee, "ether")} ETH
-            </p>
+            {raffleAddress ? (
+                <div className="flex flex-col justify-center items-center">
+                    <p>
+                        Hi frome lottery! The take part in the lottery contribute{" "}
+                        {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+                    </p>
+                    <Button
+                        type="button"
+                        theme="primary"
+                        text="Enter Raffle"
+                        onClick={async () => {
+                            await enterRaffle({ value: entranceFee })
+                        }}
+                    />
+                </div>
+            ) : (
+                <div>
+                    <p>No Raffle address detected!</p>
+                </div>
+            )}
         </div>
     )
 }
