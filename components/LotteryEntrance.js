@@ -2,8 +2,10 @@ import { useWeb3Contract } from "react-moralis"
 import { contractAddresses, abi } from "@/constants/constants"
 import { useMoralis } from "react-moralis"
 import { useEffect, useState } from "react"
+import { useNotification } from "@web3uikit/core"
 import { ethers } from "ethers"
 import { Button } from "@web3uikit/core"
+import { Bell } from "@web3uikit/icons"
 
 export default function LotteryEntrance() {
     // Moralis know which chain we are on, because the Header passes up
@@ -22,6 +24,8 @@ export default function LotteryEntrance() {
     // entranceFee must be a hook, otherwise when it gets updated is frontend does not rerender and we do not see it!
     // runContractFunction can both send transactions and read state
     const [entranceFee, setEntranceFee] = useState("0")
+    // dispatch is a kind of pop-up
+    const dispatch = useNotification()
     // -----------------------------------------------
 
     // When frontend loads we are going to read the entranceFee (which is set dinamically when Raffle.sol is deployed)
@@ -43,6 +47,22 @@ export default function LotteryEntrance() {
         params: {},
         msgValue: entranceFee,
     })
+
+    // https://web3ui.github.io/web3uikit/?path=/docs/5-popup-notification--hook-demo
+    const handleNotification = () => {
+        dispatch({
+            type: "info",
+            message: "Transaction Complete!",
+            title: "Transaction Notification Complete",
+            position: "topR",
+            icon: <Bell fontSize={20} />,
+        })
+    }
+
+    const handleSuccess = async (tx) => {
+        await tx.wait(1)
+        handleNotification(tx)
+    }
 
     useEffect(() => {
         if (isWeb3Enabled && raffleAddress) {
@@ -76,7 +96,11 @@ export default function LotteryEntrance() {
                         theme="primary"
                         text="Enter Raffle"
                         onClick={async () => {
-                            await enterRaffle({ value: entranceFee })
+                            await enterRaffle({
+                                // onComplete,
+                                onSuccess: handleSuccess,
+                                onError: (error) => console.log(error),
+                            })
                         }}
                     />
                 </div>
