@@ -1,11 +1,12 @@
 import { useWeb3Contract } from "react-moralis"
-import { contractAddresses, abi } from "@/constants/constants"
+import { contractAddressesLive, abi } from "@/constants/constants"
 import { useMoralis } from "react-moralis"
 import { useEffect, useState } from "react"
 import { useNotification } from "@web3uikit/core"
 import { ethers } from "ethers"
 import { Button } from "@web3uikit/core"
 import { Bell } from "@web3uikit/icons"
+import { ConnectButton } from "@web3uikit/web3"
 
 // TODO: add a listener that listen to the event `WinnerPicked(address indexed player)` emitted when a winner is picked
 // Update the frontend anytime a winner is picked
@@ -22,7 +23,9 @@ export default function LotteryEntrance() {
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
     // console.log(parseInt(chainIdHex))
     const chainId = parseInt(chainIdHex, 16) //convert hex to integer
-    const raffleAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
+    const raffleAddress =
+        chainId in contractAddressesLive ? contractAddressesLive[chainId][0] : null
+    const sepoliaChainId = 11155111
     // let entranceFee
     // entranceFee must be a hook, otherwise when it gets updated is frontend does not rerender and we do not see it!
     // runContractFunction can both send transactions and read state
@@ -66,6 +69,47 @@ export default function LotteryEntrance() {
         params: {},
         msgValue: entranceFee,
     })
+
+    useEffect(() => {
+        if (isWeb3Enabled && chainId !== sepoliaChainId) {
+            switchToSepolia()
+        }
+    }, [isWeb3Enabled, chainId])
+
+    const switchToSepolia = async () => {
+        try {
+            await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: "0xaa36a7" }], // Sepolia chain ID in hex
+            })
+        } catch (switchError) {
+            // This error code indicates that the chain has not been added
+            if (switchError.code === 4902) {
+                try {
+                    await window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [
+                            {
+                                chainId: "0xaa36a7",
+                                chainName: "Sepolia Test Network",
+                                rpcUrls: ["https://rpc.sepolia.org"],
+                                nativeCurrency: {
+                                    name: "Sepolia Ether",
+                                    symbol: "SEP",
+                                    decimals: 18,
+                                },
+                                blockExplorerUrls: ["https://sepolia.etherscan.io"],
+                            },
+                        ],
+                    })
+                } catch (addError) {
+                    console.error(addError)
+                }
+            } else {
+                console.error(switchError)
+            }
+        }
+    }
 
     // https://web3ui.github.io/web3uikit/?path=/docs/5-popup-notification--hook-demo
     const handleNotification = () => {
@@ -115,9 +159,9 @@ export default function LotteryEntrance() {
                     <p>
                         Hi frome lottery! The take part in the lottery contribute{" "}
                         {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+                        <p>Number of players: {numberOfPlayers}</p>
+                        <p>Last winner: {lastWinner}</p>
                     </p>
-                    <p>Number of players: {numberOfPlayers}</p>
-                    <p>Last winner: {lastWinner}</p>
                     <Button
                         type="button"
                         theme="primary"
@@ -133,8 +177,9 @@ export default function LotteryEntrance() {
                     />
                 </div>
             ) : (
-                <div>
-                    <p>No Raffle address detected!</p>
+                <div className="flex flex-col justify-center items-center">
+                    <p>Connect to check how many players entered the Raffle and Play!</p>
+                    <ConnectButton moralisAuth={false} />
                 </div>
             )}
         </div>

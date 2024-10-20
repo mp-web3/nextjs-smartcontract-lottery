@@ -17,10 +17,9 @@ export default function Home() {
             {/* header / connect button / nav bar */}
             <Header />
             <HeroCustom />
-            <main>
-                <LotteryEntrance />
-                <Technology />
-            </main>
+
+            <LotteryEntrance />
+            <Technology />
         </div>
     )
 }
