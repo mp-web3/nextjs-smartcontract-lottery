@@ -153,14 +153,14 @@ export default function LotteryEntrance() {
     }, [isWeb3Enabled, raffleAddress])
 
     return (
-        <div>
+        <div className="pt-24">
             {raffleAddress ? (
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col justify-center items-center gap-4 text-blue-web3uikit">
                     <p>
-                        Hi frome lottery! The take part in the lottery contribute{" "}
-                        {ethers.utils.formatUnits(entranceFee, "ether")} ETH
-                        <p>Number of players: {numberOfPlayers}</p>
-                        <p>Last winner: {lastWinner}</p>
+                        <b>Entrance cost: </b> {ethers.utils.formatUnits(entranceFee, "ether")} ETH
+                    </p>
+                    <p>
+                        <b>Number of players:</b> {numberOfPlayers}
                     </p>
                     <Button
                         type="button"
@@ -175,11 +175,16 @@ export default function LotteryEntrance() {
                             })
                         }}
                     />
+                    <p>
+                        <b>Last winner:</b> 🎉 {lastWinner} 🎉
+                    </p>
                 </div>
             ) : (
-                <div className="flex flex-col justify-center items-center">
-                    <p>Connect to check how many players entered the Raffle and Play!</p>
+                <div className="flex flex-col justify-center items-center gap-4">
                     <ConnectButton moralisAuth={false} />
+                    <p className="text-lg font-medium text-blue-web3uikit">
+                        Connect to check how many players already entered the raffle and Play Now!
+                    </p>
                 </div>
             )}
         </div>

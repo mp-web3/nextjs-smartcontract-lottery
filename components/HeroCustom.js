@@ -12,7 +12,7 @@ export default function HeroCustom() {
             height="176px"
             rounded="20px"
             textColor="#fff"
-            title="Decentralized Lottery"
+            title="Verifiable Random Lottery is LIVE on Sepolia Test Network"
         >
             <Button
                 icon={<ArrowCircleRight />}

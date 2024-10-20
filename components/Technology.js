@@ -15,12 +15,12 @@ export default function Technology() {
     }
 
     return (
-        <div className="p-8 bg-emerald-100 w-full justify-center flex">
+        <div className="p-8 bg-grey-banner w-full justify-center flex rounded-3xl">
             <div className="flex flex-wrap flex-col max-w-4xl">
-                <h2 className="text-2xl font-bold mb-4 text-sky-600">
+                <h2 className="text-3xl font-bold mb-4 text-white">
                     Explore Our Smart Contract Technology
                 </h2>
-                <p className="mb-8 text-sky-600">
+                <p className="mb-8 text-white">
                     Click on the cards below to learn more about the technologies we use and
                     interact with our smart contract deployed on the Sepolia network.
                 </p>
