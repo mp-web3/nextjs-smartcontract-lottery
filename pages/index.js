@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import Head from "next/head"
 import Header from "@/components/Header"
 import LotteryEntrance from "@/components/LotteryEntrance"
+import Technology from "@/components/Technology"
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -29,6 +30,7 @@ export default function Home() {
             <Header />
             <main>
                 <LotteryEntrance />
+                <Technology />
             </main>
         </div>
     )
