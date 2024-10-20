@@ -115,9 +115,9 @@ export default function LotteryEntrance() {
     const handleNotification = () => {
         dispatch({
             type: "info",
-            message: "Transaction Complete!",
-            title: "Transaction Notification Complete",
-            position: "topR",
+            message: "Succesfully entered lottery!",
+            title: "Transaction Complete",
+            position: "topL",
             icon: <Bell fontSize={20} />,
         })
     }
