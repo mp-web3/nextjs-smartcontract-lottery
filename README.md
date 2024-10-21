@@ -2,6 +2,28 @@
 
 This project is a decentralized application (DApp) built with Next.js and Solidity. It allows users to participate in a lottery where a winner is picked randomly using Chainlink VRF (Verifiable Random Function).
 
+## Deployments
+
+## Access the Website hosted on IPFS
+
+### Brave
+
+You can simply use the Brave IPFS node or you can install the [IPFS Companion Extension](https://chromewebstore.google.com/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch)
+
+### Google Chrome
+
+Install the [IPFS Companion Extension](https://chromewebstore.google.com/detail/ipfs-companion/nibjojkomfdiaoajekhjakgkdhaomnch) from Chrome Web Store
+
+### Firefox
+
+Install the [IPFS Companion Extension](https://addons.mozilla.org/it/firefox/addon/ipfs-companion/) from Firefox Browser ADD-ONS
+
+If you are having trouble accessing
+
+### Other Browser
+
+Read the docs [IPFS Companion Install](http://bafybeie266mvmvkpt5bvvqp4mmmcwqv2obqzndlkqxbtmpnws2tdcn4iju.ipfs.localhost:8080/install/ipfs-companion/#install)to install the IPFS Companion on your preferred Browser
+
 ## Installation
 
 To set up the project locally, follow these steps:
@@ -56,6 +78,14 @@ To set up the project locally, follow these steps:
 -   **Chainlink VRF**: Verifiable Random Function for generating random numbers.
 -   **Web3uikit**: UI components for Web3 applications.
 -   **Moralis**: Simplifies interaction with blockchain data.
+
+## Deploy
+
+### Deploy on IPFS
+
+```
+yarn build
+```
 
 ## Contributing
 
