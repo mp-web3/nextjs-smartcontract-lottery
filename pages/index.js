@@ -14,7 +14,6 @@ export default function Home() {
                 <meta name="Verifiable Random Lottery" content="My Smart Contract Lottery" />
                 <link rel="icon" href="favicon.ico" />
             </Head>
-            {/* header / connect button / nav bar */}
             <Header />
             <HeroCustom />
             <LotteryEntrance />

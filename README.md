@@ -1,214 +1,73 @@
 # Next.js Smart Contract Lottery
 
--   [nextjs-smartcontract-lottery-fcc](https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc) from PatrickAlphaC
--   [smart contract kit lesson](https://github.com/smartcontractkit/full-blockchain-solidity-course-js?tab=readme-ov-file#lesson-10-nextjs-smart-contract-lottery-full-stack--front-end)
--   [6 Ways to connect your dapp to a wallet](https://www.youtube.com/watch?v=pdsYCkUWrgQ)
+This project is a decentralized application (DApp) built with Next.js and Solidity. It allows users to participate in a lottery where a winner is picked randomly using Chainlink VRF (Verifiable Random Function).
 
-## Setup
+## Installation
 
-1. `yarn init` and accept defaults
-2. run `yarn create next-app .`
-    > The period after "next app", indicates we want to create the application in the current folder (avoid folder duplication)
+To set up the project locally, follow these steps:
 
-## Getting Started with Next.js
+1. **Clone the repository**:
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+    ```bash
+    git clone https://github.com/your-username/nextjs-smartcontract-lottery.git
+    cd nextjs-smartcontract-lottery
+    ```
 
-First, run the development server:
+2. **Install dependencies**:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    yarn install
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Set up environment variables**:
+   Create a `.env.local` file in the root directory and add the necessary environment variables. For example:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+    ```plaintext
+    NEXT_PUBLIC_INFURA_ID=your-infura-id
+    NEXT_PUBLIC_CHAIN_ID=11155111
+    ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+4. **Run the development server**:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    ```bash
+    yarn dev
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+-   **Connect Wallet**: Click on the "Connect Wallet" button to connect your Ethereum wallet.
+-   **Switch Network**: If you are not on the Sepolia network, you will be prompted to switch.
+-   **Enter Lottery**: Enter the lottery by paying the entrance fee.
+-   **Check Winner**: The winner is picked randomly using Chainlink VRF.
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-   **Decentralized Lottery**: Participate in a fair and transparent lottery.
+-   **Chainlink VRF**: Ensures the randomness of the winner selection.
+-   **Wallet Integration**: Connect your Ethereum wallet to interact with the DApp.
+-   **Network Switching**: Automatically prompts the user to switch to the Sepolia network if not already connected.
 
-## Deploy on Vercel
+## Technologies Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   **Next.js**: React framework for server-side rendering and static site generation.
+-   **Solidity**: Programming language for writing smart contracts.
+-   **Chainlink VRF**: Verifiable Random Function for generating random numbers.
+-   **Web3uikit**: UI components for Web3 applications.
+-   **Moralis**: Simplifies interaction with blockchain data.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contributing
 
-## Packages
+Contributions are welcome! Please follow these steps to contribute:
 
-### web3uikit
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a pull request.
 
--   [web3uikit GitHub](https://github.com/web3ui/web3uikit?tab=readme-ov-file#web3uikit)
--   [web3uikit usage examples for Nextjs](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components-babel)
+## License
 
-lightweight UI components for web3 developers.
-
-```
-yarn add  @web3uikit/core @web3uikit/web3 @web3uikit/icons
-```
-
-### moralis
-
--   Read [MoralisWeb3 GitHub](https://github.com/MoralisWeb3/react-moralis), to learn how to use react-moralis
-
-We'll use [react-moralis](https://www.npmjs.com/package/react-moralis) to easily call functionalities and display data from ethereum.
-
-> **IMPORTANT!** we install it as normal dependencies and not `--dev` dev dependencies because **_we need moralis for production build_**!!!
-
-to install moralis run:
-
-```
-yarn add react react-dom moralis-v1 react-moralis
-```
-
-> Moralis is a **context provider**
-
-In order to let your components have access to Moralis functions, wrap your app in a <MoralisProvider />
-
-See `@/pages_app.js`
-
-#### Learn to use `useWeb3Contract` from `react-moralis`
-
--   [useWeb3Contract docs](https://github.com/MoralisWeb3/react-moralis?tab=readme-ov-file#useweb3contract)
-
-_example_
-
-```
-const ShowUniswapObserveValues = () => {
-  const { data, error, runContractFunction, isFetching, isLoading } =
-    useWeb3Contract({
-      abi: usdcEthPoolAbi,
-      contractAddress: usdcEthPoolAddress,
-      functionName: "observe",
-      params: {
-        secondsAgos: [0, 10],
-      },
-    });
-
-  return (
-    <div>
-      {error && <ErrorMessage error={error} />}
-      <button onClick={() => runContractFunction()} disabled={isFetching}>
-        Fetch data
-      </button>
-      {data && <pre>{JSON.stringify(data)}</pre>}
-    </div>
-  );
-};
-
----
-
-# Learn More about Stuff
-
-## React Hooks
-
-> Hooks allow function components to have access to **state** and other React features. Because of this, class components are generally no longer needed. Source [w3schools React Hooks](https://www.w3schools.com/react/react_hooks.asp)
-
-Thanks to states, our components and fronted rerender based on the state.
-
-## Use Effect
-
-useEffect function takes 2 parameters:
-
-1. A function as a first parameter
-2. Optionally a dependency array as second parameter.
-
-### Case 1: providing a non empty dependency array
-
-useEffect will keep checking the values in the dependency array so that
-if anything in the dependency array changes is going to call some function and rerender the frontend
-
-```
-
-useEffect(() => {
-console.log("Hi!");
-console.log(isWeb3Enabled);
-}, [isWeb3Enabled]);
-
-```
-
-Here use effect will constantly listening to something that changes the valuue of "isWeb3Enabled"
-In strict mode useEffect run twice: on load and immediatly after will check the value
-
-### Case 2: only passing the first parameter
-
-useEffect(() => {
-console.log(Hi!);
-console.log(isWeb3Enabled);
-})
-
-In this case useEffect() will run anytime the frontend rerenders
-
-### Case 3: passing an epty array as second parameter
-
-useEffect(() => {
-console.log(Hi!);
-console.log(isWeb3Enabled);
-}, [])
-
-in this case useEffect will run only on reload
-
-## Local Storage
-
-We want our application to remember if someone alreasy connected the account
-
-we will store it in the window object
-
-```
-
-import { useMoralis } from "react-moralis"
-import { useEffect } from "react"
-
-export default function Header() {
-const { enableWeb3, account, isWeb3Enabled } = useMoralis()
-useEffect(() => {
-if (isWeb3Enabled) return
-enableWeb3()
-}, [isWeb3Enabled])
-
-    return (
-        <div>
-            {/* If an account is already connected it will just show "Connected"
-          else it will display the connect button*/}
-            {account ? (
-                <div>
-                    Connected to {account.slice(0, 6)}...
-                    {account.slice(account.length - 4)}
-                </div>
-            ) : (
-                <button
-                    className="border border-white py-2 px-4 rounded-lg"
-                    onClick={async () => {
-                        await enableWeb3()
-
-                        window.localStorage.setItem("connected", "injected")
-                    }}
-                >
-                    Connect
-                </button>
-            )}
-        </div>
-    )
-
-}
-
-```
-
-```
+This project is licensed under the MIT License. See the LICENSE file for details.

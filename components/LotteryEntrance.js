@@ -8,38 +8,19 @@ import { Button } from "@web3uikit/core"
 import { Bell } from "@web3uikit/icons"
 import { ConnectButton } from "@web3uikit/web3"
 
-// TODO: add a listener that listen to the event `WinnerPicked(address indexed player)` emitted when a winner is picked
-// Update the frontend anytime a winner is picked
-
 export default function LotteryEntrance() {
-    // Moralis know which chain we are on, because the Header passes up
-    // to the MoralisProvider (_app.js) all of the informations about
-    // metamask.
-    // Moralis Provider than passes it down to all of the components inside Moralis
-    // provider tags <MoralisProvider><Component {...pageProps}/></MoralisProvider>
-
-    // Motalis is going to give us the "0x...", we need to remove the "0x"
-    // Pull out the chainIdHex object and rename it chainId
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
-    // console.log(parseInt(chainIdHex))
-    const chainId = parseInt(chainIdHex, 16) //convert hex to integer
+
+    const chainId = parseInt(chainIdHex, 16)
     const raffleAddress =
         chainId in contractAddressesLive ? contractAddressesLive[chainId][0] : null
     const sepoliaChainId = 11155111
-    // let entranceFee
-    // entranceFee must be a hook, otherwise when it gets updated is frontend does not rerender and we do not see it!
-    // runContractFunction can both send transactions and read state
+
     const [entranceFee, setEntranceFee] = useState("0")
     const [numberOfPlayers, setNumberOfPlayers] = useState("0")
     const [lastWinner, setLastWinner] = useState("0")
-    // dispatch is a kind of pop-up
-    const dispatch = useNotification()
-    // -----------------------------------------------
 
-    // When frontend loads we are going to read the entranceFee (which is set dinamically when Raffle.sol is deployed)
-    // By using calling the function getEntranceFee()
-    // Check if raffleAddress is valid
-    console.log("Raffle Address:", raffleAddress)
+    const dispatch = useNotification()
 
     const { runContractFunction: getEntranceFee } = useWeb3Contract({
         abi: abi,
@@ -70,6 +51,22 @@ export default function LotteryEntrance() {
         msgValue: entranceFee,
     })
 
+    const handleNotification = () => {
+        dispatch({
+            type: "info",
+            message: "Succesfully entered lottery!",
+            title: "Transaction Complete",
+            position: "topL",
+            icon: <Bell fontSize={20} />,
+        })
+    }
+
+    const handleSuccess = async (tx) => {
+        await tx.wait(1)
+        handleNotification(tx)
+        updateUI()
+    }
+
     useEffect(() => {
         if (isWeb3Enabled && chainId !== sepoliaChainId) {
             switchToSepolia()
@@ -80,10 +77,9 @@ export default function LotteryEntrance() {
         try {
             await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: "0xaa36a7" }], // Sepolia chain ID in hex
+                params: [{ chainId: "0xaa36a7" }],
             })
         } catch (switchError) {
-            // This error code indicates that the chain has not been added
             if (switchError.code === 4902) {
                 try {
                     await window.ethereum.request({
@@ -111,23 +107,6 @@ export default function LotteryEntrance() {
         }
     }
 
-    // https://web3ui.github.io/web3uikit/?path=/docs/5-popup-notification--hook-demo
-    const handleNotification = () => {
-        dispatch({
-            type: "info",
-            message: "Succesfully entered lottery!",
-            title: "Transaction Complete",
-            position: "topL",
-            icon: <Bell fontSize={20} />,
-        })
-    }
-
-    const handleSuccess = async (tx) => {
-        await tx.wait(1)
-        handleNotification(tx)
-        updateUI()
-    }
-
     async function updateUI() {
         try {
             const entranceFeeFromCall = (await getEntranceFee()).toString()
@@ -137,13 +116,12 @@ export default function LotteryEntrance() {
             setNumberOfPlayers(numberOfPlayersFromCall)
             setLastWinner(lastWinnerFromCall)
         } catch (error) {
-            console.error("Error fetching entrance fee:", error) // Catch and log any errors
+            console.error("Error fetching entrance fee:", error)
         }
     }
 
     useEffect(() => {
         if (isWeb3Enabled && raffleAddress) {
-            // Ensure Web3 is enabled and raffleAddress is valid
             updateUI()
         } else {
             console.log(
@@ -168,9 +146,7 @@ export default function LotteryEntrance() {
                         text="Enter Raffle"
                         onClick={async () => {
                             await enterRaffle({
-                                // onComplete,
-                                onSuccess: handleSuccess, // onSucces is only checking that the transaction was succesfully sent to the wallet
-                                // It is NOT checking if the transaction was confirmed onChain!!!
+                                onSuccess: handleSuccess,
                                 onError: (error) => console.log(error),
                             })
                         }}

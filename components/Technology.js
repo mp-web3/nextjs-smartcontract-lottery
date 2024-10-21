@@ -24,7 +24,6 @@ export default function Technology() {
                     Click on the cards below to learn more about the technologies we use and
                     interact with our smart contract deployed on the Sepolia network.
                 </p>
-                {/* Cards */}
                 <div className="flex justify-between">
                     {/* Card 1 */}
                     <div className="w-[250px]">
