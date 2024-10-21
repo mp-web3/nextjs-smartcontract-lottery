@@ -4,6 +4,8 @@ This project is a decentralized application (DApp) built with Next.js and Solidi
 
 ## Deployments
 
+-   IPFS: ipfs://QmV3E3zNYvoHCbW2McH6z27dB4RiGLUU1aZ6sZdPrSPVX8
+
 ## Access the Website hosted on IPFS
 
 ### Brave
@@ -83,9 +85,37 @@ To set up the project locally, follow these steps:
 
 ### Deploy on IPFS
 
+From the root repository (nextjs-smartcontract-lottery) run in the terminal
+
 ```
 yarn build
 ```
+
+It will outomatically export the static version of the website in the newly created "out" directory
+
+> Check out [Next.js documentation for Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) to learn more
+
+Now:
+
+-   Open IPFS Desktop
+-   Click "FILES" tab on the right
+    . Click the Import Button
+-   Select thr "out" directory created after running "yarn build"
+
+> Congrats! Now your website is officially hosted on IPFS
+
+![IPFS Desktop Import](./public/IPFS-import-out-dir.png)
+
+**Check out your website on your favorite browser!**
+
+In IPFS Desktop, Files Tab
+
+-   Click the three dots on the right of the out directory
+-   Click on "Copy CID"
+-   Open your preferred browser
+-   Paste the CID preceded by "ipfs://"
+
+e.g. my deployed website is on ipfs://QmV3E3zNYvoHCbW2McH6z27dB4RiGLUU1aZ6sZdPrSPVX8
 
 ## Contributing
 
